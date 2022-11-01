@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  app:
+    image: pronochain/pronochain-back-dev
+    volumes:
+      - ./:/var/www/html
+    links:
+      - database
+
+  web_server:
+    image: pronochain/pronochain-api-nginx-dev
+
+  database:
+    image: 'postgres:14'
+    container_name: pronochain-pgsql
+    ports:
+      - "5432:5432"
+    environment:
+      PGPASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+    networks:
+      - pronochain

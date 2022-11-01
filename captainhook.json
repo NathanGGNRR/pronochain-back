@@ -1,0 +1,21 @@
+{
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit"
+            }
+        ]
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "./vendor/bin/php-cs-fixer fix --dry-run"
+            },
+            {
+                "action": "./vendor/bin/phpunit"
+            }
+        ]
+    }
+}

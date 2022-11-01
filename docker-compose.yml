@@ -1,0 +1,31 @@
+version: '3.9'
+
+networks:
+  pronochain:
+    name: pronochain
+    driver: bridge
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/app.dockerfile
+    image: pronochain/pronochain-back-prod
+    container_name: pronochain-api
+    networks:
+      - pronochain
+
+  web_server:
+    build:
+      context: .
+      dockerfile: docker/nginx.dockerfile
+    image: pronochain/pronochain-api-nginx-prod
+    container_name: pronochain-nginx
+    ports:
+      - "8000:80"
+    environment:
+        FPM_HOST: "app:9000"
+    links:
+      - app
+    networks:
+      - pronochain
